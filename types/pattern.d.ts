@@ -59,10 +59,12 @@ export class CronPattern {
     lastDayOfMonth: boolean;
     starDayOfMonth: boolean;
     starDayOfWeek: boolean;
+    lastDayOfMonthOffset: number;
     private parse;
     private partToArray;
     private throwAtIllegalCharacters;
     private handleNumber;
+    private handleLastDayOfMonthOffset;
     private handleRangeWithStepping;
     private handleRange;
     private handleStepping;

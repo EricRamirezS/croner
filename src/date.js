@@ -163,7 +163,7 @@ CronDate.prototype.increment = function (pattern, options, hasPreviousRun) {
 						// Create a copy of targetDate
 						// Set days to one day after today, if month changes, then we are at the last day of the month
 						const targetDateCopy = new Date(targetDate);
-						targetDateCopy.setDate(i-offset+1);
+						targetDateCopy.setDate(i-offset+1+pattern.lastDayOfMonthOffset);
 				
 						// Overwrite match if last day of month is matching
 						if (targetDateCopy.getMonth() !== this.months) {

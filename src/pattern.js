@@ -36,6 +36,8 @@ function CronPattern (pattern, timezone) {
 	this.starDayOfMonth = false;
 	this.starDayOfWeek  = false;
 
+	this.lastDayOfMonthOffset = 0;
+
 	this.parse();
 
 }
@@ -137,6 +139,12 @@ CronPattern.prototype.partToArray = function (type, conf, valueIndexOffset) {
 		return;
 	}
 
+	// Handle offset from Last Day of Month
+	if (this.lastDayOfMonth && type === "days" && conf.startsWith("-")) {
+		this.handleLastDayOfMonthOffset(conf);
+		return;
+	}
+
 	// Handle separated entries (,) by recursion
 	const split = conf.split(",");
 	if( split.length > 1 ) {
@@ -198,6 +206,18 @@ CronPattern.prototype.handleNumber = function (conf, type, valueIndexOffset) {
 	}
 
 	this[type][i] = 1;
+};
+
+/**
+ * Take care of offset for Day of month when L (e.g. L-5)
+ * @private
+ *
+ * @param {string} conf - Current part, expected to be a string like -5
+ */
+CronPattern.prototype.handleLastDayOfMonthOffset = function (conf) {
+	let offset = parseInt(conf);
+	if (isNaN(offset)) throw new TypeError("CronPattern: Syntax error, illegal offset value (NaN)");
+	this.lastDayOfMonthOffset = offset;
 };
 
 /**

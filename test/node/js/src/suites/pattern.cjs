@@ -332,4 +332,14 @@ module.exports = function (Cron, test) {
 		assert.equal(nextRun.getFullYear(),2024);
 	});
 
+	test("0 0 0 L-2 2 * should find last day -2 of february (27 2024)", function () {
+		let scheduler = new Cron("0 0 0 L-2 2 *"),
+			prevRun = new Date(1703891808380), // From 30th of december 2023
+			nextRun = scheduler.next(prevRun);
+
+		// Do comparison
+		assert.equal(nextRun.getDate(),27);
+		assert.equal(nextRun.getMonth(),1);
+		assert.equal(nextRun.getFullYear(),2024);
+	});
 };
